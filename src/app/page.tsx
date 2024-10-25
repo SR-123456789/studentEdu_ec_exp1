@@ -1766,7 +1766,7 @@ export default function Home() {
       },
     },
   ];
-  const [items, setItems] = useState([]); // データを管理する状態
+  const [items, setItems] = useState<any[]>([]); // データを管理する状態
   const [searchTerm, setSearchTerm] = useState(""); // 初期検索キーワード
   const [isLoading, setIsLoading] = useState(true); // ローディング状態
   const [error, setError] = useState(null); // エラーメッセージ管理
@@ -1782,6 +1782,7 @@ export default function Home() {
       const data = await response.json();
       setItems(data.Items); // データを state に保存
     } catch (error:any) {
+      console.log(mockDataItems)
       console.error(error)
       setError(error.message); // エラーを state に保存
     } finally {
@@ -1793,9 +1794,9 @@ export default function Home() {
   useEffect(() => {
     console.log("useEffect");
     fetchItems("web開発");
-  }, [""]);
+  }, [fetchItems]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault(); // ページリロードを防ぐ
     fetchItems(searchTerm); // 検索実行
   };
