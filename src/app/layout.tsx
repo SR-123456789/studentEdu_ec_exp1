@@ -26,9 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex flex-col`}
       >
-        {children}
+        <header className="bg-green-800 h-20 sticky">s¥sss</header>
+        <main className="overflow-auto grow">{children}</main>
       </body>
     </html>
   );
