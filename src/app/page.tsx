@@ -1823,7 +1823,7 @@ export default function Home() {
       <div className="flex flex-wrap gap-4">
         {items.map((item, index) => (
           <div key={index} className="w-40">
-            <a href={item.Item.ItemUrl}>
+            <a href={item.Item.itemUrl}>
               {item.Item.mediumImageUrls[0]&&item.Item.mediumImageUrls[0].imageUrl&&<Image
                 src={item.Item.mediumImageUrls[0].imageUrl}
                 alt={item.Item.itemName}
