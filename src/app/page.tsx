@@ -1778,12 +1778,13 @@ export default function Home() {
       const response = await fetch(
         `https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601?format=json&keyword=${keyword}&applicationId=1006740518069790219`
       );
+      console.log("1781",response)
       if (!response.ok) throw new Error("データの取得に失敗しました");
       const data = await response.json();
       setItems(data.Items); // データを state に保存
     } catch (error:any) {
-      console.log(mockDataItems)
-      console.error(error)
+      // console.log(mockDataItems)
+      // console.error(error)
       setError(error.message); // エラーを state に保存
     } finally {
       setIsLoading(false); // ローディングを終了
@@ -1794,37 +1795,36 @@ export default function Home() {
   useEffect(() => {
     console.log("useEffect");
     fetchItems("web開発");
-  }, [fetchItems]);
+  }, []);
 
   const handleSubmit = (e:any) => {
+    console.log(mockDataItems);
     e.preventDefault(); // ページリロードを防ぐ
     fetchItems(searchTerm); // 検索実行
   };
   return (
     <div className="container mx-auto max-w-[1000px] p-4">
       {/* 検索バー */}
-      <form onSubmit={handleSubmit} className="mb-4">
+      <form onSubmit={handleSubmit} className="mb-4 flex">
         <input
           type="text"
           placeholder="Search items..."
-          className="border border-gray-300 rounded-md p-2 w-full"
+          className="border border-gray-300 rounded-md p-2 flex-1"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <button
+          type="submit"
+          className="bg-orange-600 text-white rounded-md p-2 ml-2"
+        >
+          Search
+        </button>
       </form>
-
-      {/* ローディング中の表示 */}
-      {isLoading && <p className="text-center">Loading...</p>}
-
-      {/* エラーがある場合の表示 */}
-      {error && <p className="text-center text-red-500">{error}</p>}
-
-      {/* アイテムのリスト */}
       <div className="flex flex-wrap gap-4">
         {items.map((item, index) => (
           <div key={index} className="w-40">
             <a href={item.Item.shopUrl}>
-              {item.Item.mediumImageUrls[0].imageUrl&&<Image
+              {item.Item.mediumImageUrls[0]&&item.Item.mediumImageUrls[0].imageUrl&&<Image
                 src={item.Item.mediumImageUrls[0].imageUrl}
                 alt={item.Item.itemName}
                 width={128}

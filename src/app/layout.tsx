@@ -28,8 +28,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex flex-col`}
       >
-        <header className="bg-green-800 h-20 sticky">s¥sss</header>
-        <main className="overflow-auto grow">{children}</main>
+        <header className="bg-orange-600 h-16 sticky flex items-center">
+          <h1 className="text-white mx-4 font-extrabold" style={{fontFamily: 'Impact, sans-serif'}}>
+          サンプル！！ECサイト
+          </h1>
+          </header>
+        <main className="overflow-auto flex-1">{children}</main>
       </body>
     </html>
   );
