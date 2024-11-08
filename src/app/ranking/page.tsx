@@ -12,6 +12,7 @@ export default function Ranking() {
   }
 
   const [rankingData, setRankingData] = useState<BooksRaking[]>([]);
+  const [a, setA] = useState(false);
 
   const fetchData = async () => {
     const { data, error } = await supabase
@@ -31,6 +32,13 @@ export default function Ranking() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    if (supabaseUrl) {
+      setA(true);
+    }
+  }, []);
+
   return (
     <div className="w-full h-screen overflow-y-auto">
       {" "}
@@ -39,7 +47,10 @@ export default function Ranking() {
         {" "}
         {/* 下に余白を設定 */}
         <div className="flex items-center justify-center w-full h-24 mt-10">
-          <h1 className="text-5xl font-bold bg-white mb-2 mt-2">
+          <h1
+            className="text-5xl font-bold bg-white mb-2 mt-2"
+            style={{ color: a ? "red" : "black" }}
+          >
             人気ランキング
           </h1>
         </div>
