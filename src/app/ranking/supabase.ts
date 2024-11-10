@@ -8,7 +8,6 @@ dotenv.config();
 // 環境変数から Supabase URL と KEY を取得
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY!;
-console.log("supabaseUrl:", supabaseUrl);
 
 // エラーチェック
 if (!supabaseUrl || !supabaseKey) {
