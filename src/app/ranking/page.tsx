@@ -30,8 +30,6 @@ export default function Ranking() {
 
   useEffect(() => {
     fetchData();
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    console.log("supabaseUrl:", supabaseUrl);
   }, []);
 
   useEffect(() => {
