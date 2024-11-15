@@ -1,42 +1,34 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { supabase } from "./supabase";
+import { supabase } from "../../../supabase";
 
-export default function Ranking() {
-  interface BooksRaking {
+export default function Favorite() {
+  interface Favorite {
     title: string;
     url: string;
     image_url: string;
-    count: number;
+    updated_at: number;
   }
 
-  const [rankingData, setRankingData] = useState<BooksRaking[]>([]);
-  const [a, setA] = useState(false);
+  const [favoriteData, setFavoriteData] = useState<Favorite[]>([]);
 
   const fetchData = async () => {
-    const { data, error } = await supabase
-      .from("books_ranking")
+    const { data } = await supabase
+      .from("favorite")
       .select("*")
-      .order("count", { ascending: false }) // countの降順
+      .order("updated_at", { ascending: false }) // countの降順
       .limit(10); // 10件に制限
 
-    if (error) {
-      console.error("Error fetching data:", error);
-    } else {
-      setRankingData(data); // データをそのままセット
+    if (!data) {
+      setFavoriteData([]);
+      return;
     }
+    setFavoriteData(data); // データをそのままセット
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    if (supabaseUrl) {
-      setA(true);
-    }
   }, []);
 
   return (
@@ -47,14 +39,11 @@ export default function Ranking() {
         {" "}
         {/* 下に余白を設定 */}
         <div className="flex items-center justify-center w-full h-24 mt-10">
-          <h1
-            className="text-5xl font-bold bg-white mb-2 mt-2"
-            style={{ color: a ? "red" : "black" }}
-          >
-            人気ランキング
+          <h1 className="text-5xl font-bold bg-white mb-2 mt-2">
+            お気に入り一覧
           </h1>
         </div>
-        {rankingData.map((data, index) => (
+        {favoriteData.map((data, index) => (
           <a
             key={index}
             className="flex flex-row items-center justify-around mb-10"
@@ -67,7 +56,6 @@ export default function Ranking() {
             <div className="flex items-center justify-center w-3/5 h-32 ml-2">
               <h2>{data.title}</h2>
             </div>
-            <h2>{data.count}票</h2>
           </a>
         ))}
       </div>
