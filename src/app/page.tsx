@@ -112,7 +112,7 @@ export default function Home() {
                 )
               }
             >
-              投票する
+              お気に入り登録する
             </button>
           </div>
         ))}
