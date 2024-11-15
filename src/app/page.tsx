@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { supabase } from "./ranking/supabase";
+import { supabase } from "../../supabase";
 
 export default function Home() {
   const [items, setItems] = useState<any[]>([]); // データを管理する状態
@@ -49,35 +49,16 @@ export default function Home() {
       title: string;
       url: string;
       image_url: string;
-      count: 0;
+      updated_at: Date;
     },
     index: number
   ) => {
-    const { data: existingData, error: fetchError } = await supabase
-      .from("books_ranking")
-      .select("*")
-      .eq("title", data.title)
-      .single();
-
     setClickedItems((prev) => new Set(prev).add(index));
 
-    // データが存在した時はデータの更新を行う
-    if (!fetchError) {
-      console.log("data: ", existingData);
-      await supabase
-        .from("books_ranking")
-        .update({ count: existingData?.count + 1 })
-        .eq("title", data.title)
-        .select();
-      return;
-    }
-
-    if (fetchError) {
-      await supabase.from("books_ranking").insert(data).select();
-      return;
-    }
-
-    setClickedItems((prev) => new Set(prev).add(index));
+    await supabase
+      .from("favorite")
+      .upsert(data, { onConflict: "title" })
+      .select("*");
   };
 
   return (
@@ -125,7 +106,7 @@ export default function Home() {
                     title: item.Item.itemName,
                     url: item.Item.itemUrl,
                     image_url: item.Item.mediumImageUrls[0].imageUrl,
-                    count: 0,
+                    updated_at: new Date(),
                   },
                   index
                 )

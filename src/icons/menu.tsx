@@ -3,7 +3,7 @@ import { SVGProps } from "react";
 
 export function PrimeAlignJustify(props: SVGProps<SVGSVGElement>) {
   return (
-    <Link href="/ranking">
+    <Link href="/favorite">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
